@@ -1,0 +1,14 @@
+import {test} from 'node:test'; import assert from 'node:assert/strict';
+import {parseDate,iso,easter,holidays,countDays,addDays,ics,csv} from '../src/calendar.js';
+test('reject invalid dates and bounds',()=>{for(const d of ['2026-02-29','2026-13-01','1899-12-31','2100-01-01','foo'])assert.throws(()=>parseDate(d));assert.equal(iso(parseDate('2024-02-29')),'2024-02-29');});
+test('known Easter dates',()=>{assert.equal(iso(easter(2026)),'2026-04-05');assert.equal(iso(easter(2027)),'2027-03-28');assert.equal(iso(easter(2000)),'2000-04-23');});
+test('Store bededag only before 2024',()=>{assert.equal(holidays(2023).get('2023-05-05'),'prayerDay');assert.equal(holidays(2024).has('2024-04-26'),false);assert.equal(countDays('2026-05-01','2026-05-01').working,1);});
+test('DK Christmas and optional days',()=>{assert.equal(countDays('2026-12-24','2026-12-31').working,5);assert.equal(countDays('2026-12-24','2026-12-31',{extra:['2026-12-24','2026-12-31']}).working,3);});
+test('Easter period',()=>{const x=countDays('2026-04-01','2026-04-07');assert.equal(x.total,7);assert.equal(x.working,2);assert.equal(countDays('2026-04-01','2026-04-07',{denmark:false}).working,5);});
+test('explicit endpoints and same-day',()=>{assert.equal(countDays('2026-10-12','2026-10-16').working,5);assert.equal(countDays('2026-10-12','2026-10-16',{includeStart:false,includeEnd:false}).working,3);assert.equal(countDays('2026-10-12','2026-10-12',{includeEnd:false}).total,0);assert.throws(()=>countDays('2026-10-16','2026-10-12'));});
+test('DST has no impact',()=>{assert.equal(countDays('2026-03-27','2026-03-30',{denmark:false}).total,4);assert.equal(countDays('2026-10-23','2026-10-26',{denmark:false}).total,4);});
+test('add excludes start and skips holidays/weekends',()=>{assert.equal(addDays('2026-04-01',1),'2026-04-07');assert.equal(addDays('2026-04-07',-1),'2026-04-01');assert.equal(addDays('2026-10-11',0),'2026-10-11');assert.throws(()=>addDays('2026-01-01',2.5));assert.throws(()=>addDays('2099-12-31',1));});
+test('custom workweek',()=>{assert.equal(countDays('2026-10-11','2026-10-17',{weekdays:[0,1,2,3,4],denmark:false}).working,5);assert.throws(()=>countDays('2026-01-01','2026-01-05',{weekdays:[]}));});
+test('guardrails',()=>{assert.throws(()=>countDays('2000-01-01','2020-01-01'));assert.throws(()=>addDays('2026-01-01',3000));});
+test('exports escape and preserve calendar semantics',()=>{const rows=countDays('2026-10-12','2026-10-12').rows;assert.match(ics(rows,'Work;day'),/SUMMARY:Work\\;day/);assert.match(ics(rows),/DTEND;VALUE=DATE:20261013/);assert.match(csv(rows),/2026-10-12,Working/);});
+test('CSV contains working dates only and supports Danish labels',()=>{const rows=countDays('2026-04-01','2026-04-07').rows;assert.equal(csv(rows).split('\r\n').length,3);assert.match(csv(rows,{date:'Dato',status:'Status',working:'Arbejdsdag'}),/Dato,Status\r\n2026-04-01,Arbejdsdag/);assert.doesNotMatch(csv(rows),/2026-04-02/)});

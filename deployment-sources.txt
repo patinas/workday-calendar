@@ -1,0 +1,57 @@
+[1] Pricing · Cloudflare Pages docs — developers.cloudflare.com
+https://developers.cloudflare.com/pages/functions/pricing/
+
+Pricing · Cloudflare Pages docs
+
+# Pricing
+
+Last updated Sep 8, 2026| Copy as Markdown| View as Markdown| Agent setup
+
+Requests to your Functions are billed as Cloudflare Workers requests. Workers plans and pricing can be found in the Workers documentation.
+
+## Paid Plans
+
+Requests to your Pages functions count towards your quota for Workers Paid plans, including requests from your Function to KV or Durable Object bindings.
+
+Pages supports the Standard usage model.
+
+Note
+
+Workers Enterprise accounts are billed based on the usage model specified in their contract. To switch to the Standard usage model, reach out to your account team. Some Workers Enterprise customers maintain the ability to change usage models.
+
+### Static asset requests
+
+On both free and paid plans, requests to static assets are free and unlimited. A request is considered static when it does not invoke Functions. Refer to Functions invocation routes to learn more about when Functions are invoked.
+
+## Free Plan
+
+Requests to your Pages Functions count towards your quota for the Workers Free plan. For example, you could use 50,000 Functions requests and 50,000 Workers requests to use your full 100,000 daily request usage. The free plan daily request limit resets at midnight UTC.
+
+[2] Lovforslag om afskaffelse store bededag er  vedtaget i Folketinget — bm.dk (2023-02-01)
+https://bm.dk/nyheder/nyheder/2023/02/lovforslag-om-afskaffelse-store-bededag-er-vedtaget-i-folketinget/
+
+Lovforslag om afskaffelse store bededag er vedtaget i Folketinget Spring over hovedmenu
+
+Spring over venstremenu Mere
+
+NYHED / 28-02-2023
+
+# Lovforslag om afskaffelse store bededag er vedtaget i Folketinget
+
+Folketinget har i dag vedtaget L 13 om konsekvenser ved afskaffelsen af store bededag som helligdag.
+
+Med lovforslaget bliver store bededag til en almindelig ekstra arbejdsdag fra og med 2024. Lovforslaget sikrer desuden, at lønmodtagere, der får forøget deres arbejdstid som følge heraf, får løn for det ekstra arbejde.
+
+Lovforslaget blev vedtaget ved et flertal bestående af Socialdemokratiet, Venstre, Moderaterne og Radikale Venstre.
+
+Læs lovforslaget som vedtaget på Folketingets hjemmeside
+
+![](https://bm.dk/media/xnjk50bv/contact_krone.svg?rmode=pad&v=1db0e8ac653fbb0)
+
+Kontakt
+
+Pressevagt
+
+51232830
+
+window.addEventListener('CookieConsentGiven', function (event) { if (cookieTractor.consentGivenFor('statistical')) { var script = document.createElement('script'); script.src = '/media/21722/siteanalyze_273787.js'; // use another target than head if necessary document.getElementsByTagName('head')[0].appendChild(script); } }, false);
