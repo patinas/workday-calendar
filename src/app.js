@@ -4,7 +4,7 @@ const lang=document.documentElement.lang, t=copy[lang], $=id=>document.getElemen
 let mode='count', result=null;
 const today=new Date(), localToday=[today.getFullYear(),String(today.getMonth()+1).padStart(2,'0'),String(today.getDate()).padStart(2,'0')].join('-');
 $('start').value=localToday;$('end').value=iso(move(parseDate(localToday),30));
-function track(e){try{fetch('/api/event',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({e})}).catch(()=>{})}catch{}}
+function track(e){try{if(navigator.doNotTrack==='1'||navigator.globalPrivacyControl)return;const i=new Image();i.src='/beacon-'+e+'.svg?x='+Date.now()}catch{}}
 function settings(){
   const extra=$('extra').value.split(/[\n,]/).map(x=>x.trim()).filter(Boolean);
   const start=parseDate($('start').value),end=mode==='count'?parseDate($('end').value):move(start,Math.sign(Number($('amount').value))*3660);
