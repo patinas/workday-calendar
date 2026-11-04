@@ -4,6 +4,7 @@ const lang=document.documentElement.lang, t=copy[lang], $=id=>document.getElemen
 let mode='count', result=null;
 const today=new Date(), localToday=[today.getFullYear(),String(today.getMonth()+1).padStart(2,'0'),String(today.getDate()).padStart(2,'0')].join('-');
 $('start').value=localToday;$('end').value=iso(move(parseDate(localToday),30));
+function track(e){try{fetch('/api/event',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({e})}).catch(()=>{})}catch{}}
 function settings(){
   const extra=$('extra').value.split(/[\n,]/).map(x=>x.trim()).filter(Boolean);
   const start=parseDate($('start').value),end=mode==='count'?parseDate($('end').value):move(start,Math.sign(Number($('amount').value))*3660);
@@ -35,6 +36,7 @@ $('calculator').addEventListener('submit',event=>{
   const excluded=result.rows.filter(r=>r.reason);$('excluded-details').hidden=mode!=='count';const body=$('excluded-body');body.replaceChildren();
   for(const row of excluded){const tr=document.createElement('tr');for(const text of [row.date,t.holidays[row.reason]]){const td=document.createElement('td');td.textContent=text;tr.append(td);}body.append(tr);}
   $('no-excluded').hidden=excluded.length>0;$('excluded-table').hidden=!excluded.length;
+  track('calculate');
  }catch(error){$('error').textContent=t.errors[error.message]??t.errors.date;$('error').hidden=false;$('error').focus();}
 });
 function download(data,type,name){const a=document.createElement('a'),url=URL.createObjectURL(new Blob([data],{type}));a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
